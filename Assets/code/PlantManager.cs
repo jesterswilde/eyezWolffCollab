@@ -7,7 +7,6 @@ using System;
 public class PlantManager : MonoBehaviour
 {
     static PlantManager t;
-
     Dictionary<string, Plant> plantLocations = new Dictionary<string, Plant>();
 
     public static void PlantSeedAtPoint(RaycastHit hit){

@@ -19,6 +19,9 @@ public class ColorTerrainPlant
     [SerializeField]
     Color color;
     public Color Color { get { return color; } }
+    [SerializeField]
+    GameObject fruitPrefab; 
+    public GameObject FruitPrefab {get{return fruitPrefab;}}
 }
 
 [Serializable]

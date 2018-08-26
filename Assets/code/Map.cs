@@ -41,7 +41,7 @@ public class Map : MonoBehaviour {
 	public void clickedOnPoint(Vector2 point){
 		float hardCodedWeight = 0.3f; 
 		texture.SetPixels ((int)(point.x * hardCodedTextureSize), (int)(point.y * hardCodedTextureSize), brushThickness, brushThickness,  MakeColorArray());
-		PTerrain.ModifyHeight (point, hardCodedWeight, brushThickness, brushType); 
+		ProcedualTerrain.ModifyHeight (point, hardCodedWeight, brushThickness, brushType); 
 		texture.Apply (); 
 	}
 

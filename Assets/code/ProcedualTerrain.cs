@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PTerrain : MonoBehaviour {
+public class ProcedualTerrain : MonoBehaviour {
 
-	static PTerrain t; 
+	static ProcedualTerrain t; 
 	[SerializeField]
 	Terrain terrain; 
 	[SerializeField]

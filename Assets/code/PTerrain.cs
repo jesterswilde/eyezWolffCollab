@@ -12,6 +12,7 @@ public class PTerrain : MonoBehaviour {
 	[SerializeField] 
 	int height; 
 	TerrainData terrainData; 
+	TerrainWeight[,] weightMap; 
 	float[,] heightMap; 
 
 	void Awake(){
@@ -20,16 +21,22 @@ public class PTerrain : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		heightMap = new float[width, height]; 
+		weightMap = new TerrainWeight[width, height]; 
+		heightMap = new float[width,height];
 		terrainData = terrain.terrainData; 
 		GenerateTerrain (); 
 	}
 
 	void GenerateTerrain(){
-		terrainData.SetHeights (width, height, heightMap); 
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				weightMap [x, y] = new TerrainWeight (x, y); 
+			}
+		}
+		terrainData.SetHeights (0, 0, heightMap); 
 	}
 
-	void ModifyHeightInternal(Vector2 point, int brushThickness){
+	void ModifyHeightInternal(Vector2 point, float weight, int brushThickness, TerrainEnum terrainEnum){
 		int xStart = (int)(point.x * width);
 		int yStart = (int)(point.y * height);
 		int xEnd = Mathf.Min (width, brushThickness + xStart); 
@@ -37,14 +44,14 @@ public class PTerrain : MonoBehaviour {
 		int avg = (xEnd - xStart + yEnd - yStart) / 2;
 		for (int x = xStart; x < xEnd; x++) {
 			for (int y = yStart; y < yEnd; y++) {
-				float height =  (float)(Mathf.Abs (x - xStart + y - yStart  - avg)) / (brushThickness * 2); 
-				heightMap [x, y] = height * 0.5f; 
+				weightMap [x, y].AddBrushStroke (terrainEnum, Time.deltaTime * 3); 
+				heightMap [x, y] = weightMap [x, y].Height; 
 			}
 		}
-		terrainData.SetHeights (width, height, heightMap); 
+		terrainData.SetHeights (0, 0, heightMap); 
 	}
-	public static void ModifyHeight(Vector2 point, int brushThickness){
-		t.ModifyHeightInternal(point, brushThickness); 
+	public static void ModifyHeight(Vector2 point, float weight, int brushThickness, TerrainEnum terrainEnum){
+		t.ModifyHeightInternal(point,weight, brushThickness,terrainEnum); 
 	}
 
 }
